@@ -1,31 +1,31 @@
 import Contact from "../Contact/Contact.jsx";
 import css from "./ContactList.module.css";
-import PropTypes from "prop-types";
 
-const ContactList = ({ contacts, handleDeleteContact }) => {
+import { getContacts, getFilter } from "../../redux/selectors.js";
+import { useSelector } from "react-redux";
+
+import Notification from "../Notification/Notification.jsx";
+
+const ContactList = () => {
+  const contacts = useSelector(getContacts);
+  const filter = useSelector(getFilter);
+
+  const filteredContacts = contacts.filter((contact) =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
+
+  if (!contacts.length) return <Notification title={"No contacts yet"} />;
+
+  if (!filteredContacts.length)
+    return <Notification title={"Contacts are not found"} />;
+
   return (
     <ul className={css.list}>
-      {contacts.map(({ id, name, number }) => (
-        <Contact
-          key={id}
-          id={id}
-          name={name}
-          number={number}
-          handleDeleteContact={handleDeleteContact}
-        />
+      {filteredContacts.map(({ id, name, number }) => (
+        <Contact key={id} id={id} name={name} number={number} />
       ))}
     </ul>
   );
 };
 
-ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      number: PropTypes.string,
-    })
-  ),
-  handleDeleteContact: PropTypes.func.isRequired,
-};
 export default ContactList;

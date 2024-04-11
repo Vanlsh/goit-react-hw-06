@@ -2,9 +2,12 @@ import PropTypes from "prop-types";
 import { FaPhoneAlt } from "react-icons/fa";
 import { FaUser } from "react-icons/fa6";
 import css from "./Contact.module.css";
+import { useDispatch } from "react-redux";
+import { deleteContact } from "../../redux/contactsSlice.js";
 
-const Contact = ({ id, name, number, handleDeleteContact }) => {
-  const handleDelete = () => handleDeleteContact(id);
+const Contact = ({ id, name, number }) => {
+  const dispatch = useDispatch();
+  const handleDelete = () => dispatch(deleteContact(id));
 
   return (
     <li className={css.card}>
@@ -29,6 +32,5 @@ Contact.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
   number: PropTypes.string,
-  handleDeleteContact: PropTypes.func.isRequired,
 };
 export default Contact;
