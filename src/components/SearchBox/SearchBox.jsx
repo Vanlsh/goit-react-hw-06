@@ -2,6 +2,7 @@ import css from "./SearchBox.module.css";
 import { debounce } from "../../helpers/debounce";
 import { useDispatch } from "react-redux";
 import { setFilter } from "../../redux/filtersSlice";
+
 const SearchBox = () => {
   const dispatch = useDispatch();
 
